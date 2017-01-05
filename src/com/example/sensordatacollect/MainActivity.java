@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
 	private Sensor mGryoscopeSensor;
 	private Sensor mLinear_AccelerationSensor;
 	private Sensor mRotation_vectorSensor;
+	private RequestPermissions mRequester;
 	
 	private Vector<Scalar4> mAccelerometer = new Vector<Scalar4>();
 	private Vector<Scalar4> mGravity = new Vector<Scalar4>();
@@ -70,9 +71,9 @@ public class MainActivity extends Activity {
 				default:
 					break;
 			}
-			StringBuilder sb = new StringBuilder(sensorType.getName());
-			SerializeTask.ToStringUtils(sb, data, sensorType);
-			dataView.append(sb.toString());
+			//StringBuilder sb = new StringBuilder(sensorType.getName());
+			//SerializeTask.ToStringUtils(sb, data, sensorType);
+			//dataView.append(sb.toString());
 		}
 
 		@Override
@@ -87,7 +88,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		mRequester = new RequestPermissions(this);
 		startRecordBtn = (Button) this.findViewById(R.id.start_record_btn);
 		stopRecordBtn = (Button) this.findViewById(R.id.stop_record_btn);
 		dataView = (TextView) this.findViewById(R.id.data_view);
@@ -120,19 +121,19 @@ public class MainActivity extends Activity {
 				//todo :: save the text to file
 				SerializeTask writeAcc;
 				try {
-					writeAcc = new SerializeTask("Accelerometer.txt", mAccelerometer, SensorType.ACCELEROMETER);
+					writeAcc = new SerializeTask("/mnt/sdcard/Accelerometer.txt", mAccelerometer, SensorType.ACCELEROMETER);
 					writeAcc.start();
 					
-					SerializeTask writeGra = new SerializeTask("Gravity.txt", mGravity, SensorType.GRAVITY);
+					SerializeTask writeGra = new SerializeTask("/mnt/sdcard/Gravity.txt", mGravity, SensorType.GRAVITY);
 					writeGra.start();
 					
-					SerializeTask writeGry = new SerializeTask("Gryoscope.txt", mGryoscope, SensorType.GYROSCOPE);
+					SerializeTask writeGry = new SerializeTask("/mnt/sdcard/Gryoscope.txt", mGryoscope, SensorType.GYROSCOPE);
 					writeGry.start();
 					
-					SerializeTask writeLineAcc = new SerializeTask("Linear_Acceleration.txt", mLinear_Acceleration, SensorType.LINEAR_ACCELERATION);
+					SerializeTask writeLineAcc = new SerializeTask("/mnt/sdcard/Linear_Acceleration.txt", mLinear_Acceleration, SensorType.LINEAR_ACCELERATION);
 					writeLineAcc.start();
 					
-					SerializeTask writeRvec = new SerializeTask("Rotation_vector.txt", mRotation_vector, SensorType.ROTATION_VECTOR);
+					SerializeTask writeRvec = new SerializeTask("/mnt/sdcard/Rotation_vector.txt", mRotation_vector, SensorType.ROTATION_VECTOR);
 					writeRvec.start();	
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -157,7 +158,7 @@ public class MainActivity extends Activity {
 	private void RegisterSensorListeners()
 	{
 		mSensorManager.registerListener(mSensorListener, mAccelerometerSensor,
-                SensorManager.SENSOR_DELAY_NORMAL); //以普通采样率注册监听器
+                SensorManager.SENSOR_DELAY_NORMAL); //浠ユ櫘閫氶噰鏍风巼娉ㄥ唽鐩戝惉鍣�
 		mSensorManager.registerListener(mSensorListener, mGravitySensor,
 		                SensorManager.SENSOR_DELAY_NORMAL);
 		mSensorManager.registerListener(mSensorListener, mGryoscopeSensor,
