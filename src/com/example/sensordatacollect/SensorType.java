@@ -5,6 +5,7 @@ public enum SensorType {
 	ACCELEROMETER("Accelerometer", "x y z (m/s2)"), //  m/s2
 	GRAVITY("Gravity", "x y z (m/s2)"),             //  m/s2
 	GYROSCOPE("Gyroscope", "x y z (rad/s)"),         //  rad/s
+	MAGNETIC("MAGNETIC", "x y z"),
 	LINEAR_ACCELERATION("Line_Acceleration", "x y z (m/s2)"), // m/s2
 	ROTATION_VECTOR("Rotation_Vector", "x y z v"); //   
 	

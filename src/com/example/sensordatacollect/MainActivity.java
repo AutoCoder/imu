@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 	private Sensor mAccelerometerSensor;
 	private Sensor mGravitySensor;
 	private Sensor mGryoscopeSensor;
+	private Sensor mMagneticSensor; //TYPE_MAGNETIC_FIELD
 	private Sensor mLinear_AccelerationSensor;
 	private Sensor mRotation_vectorSensor;
 	private RequestPermissions mRequester;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
 	private Vector<Scalar4> mAccelerometer = new Vector<Scalar4>();
 	private Vector<Scalar4> mGravity = new Vector<Scalar4>();
 	private Vector<Scalar4> mGryoscope = new Vector<Scalar4>();
+	private Vector<Scalar4> mMagnetic = new Vector<Scalar4>();
 	private Vector<Scalar4> mLinear_Acceleration = new Vector<Scalar4>();
 	private Vector<Scalar4> mRotation_vector = new Vector<Scalar4>();
 
@@ -59,6 +61,10 @@ public class MainActivity extends Activity {
 				case Sensor.TYPE_GYROSCOPE:
 					mGryoscope.add(data);
 					sensorType = SensorType.GYROSCOPE;
+					break;
+				case Sensor.TYPE_MAGNETIC_FIELD:
+					mMagnetic.add(data);
+					sensorType = SensorType.MAGNETIC;
 					break;
 				case Sensor.TYPE_LINEAR_ACCELERATION:
 					mLinear_Acceleration.add(data);
@@ -98,6 +104,7 @@ public class MainActivity extends Activity {
 		mAccelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mGravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 		mGryoscopeSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+		mMagneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 		mLinear_AccelerationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		mRotation_vectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
@@ -151,6 +158,7 @@ public class MainActivity extends Activity {
 		mSensorManager.unregisterListener(mSensorListener, mAccelerometerSensor);
 		mSensorManager.unregisterListener(mSensorListener, mGravitySensor);
 		mSensorManager.unregisterListener(mSensorListener, mGryoscopeSensor);
+		mSensorManager.unregisterListener(mSensorListener, mMagneticSensor);
 		mSensorManager.unregisterListener(mSensorListener, mLinear_AccelerationSensor);
 		mSensorManager.unregisterListener(mSensorListener, mRotation_vectorSensor);
 	}
@@ -158,15 +166,17 @@ public class MainActivity extends Activity {
 	private void RegisterSensorListeners()
 	{
 		mSensorManager.registerListener(mSensorListener, mAccelerometerSensor,
-                SensorManager.SENSOR_DELAY_NORMAL); //浠ユ櫘閫氶噰鏍风巼娉ㄥ唽鐩戝惉鍣�
+                SensorManager.SENSOR_DELAY_UI);
 		mSensorManager.registerListener(mSensorListener, mGravitySensor,
-		                SensorManager.SENSOR_DELAY_NORMAL);
+		                SensorManager.SENSOR_DELAY_UI);
 		mSensorManager.registerListener(mSensorListener, mGryoscopeSensor,
-						 SensorManager.SENSOR_DELAY_NORMAL);
+						 SensorManager.SENSOR_DELAY_UI);
+		mSensorManager.registerListener(mSensorListener, mMagneticSensor,
+				 SensorManager.SENSOR_DELAY_UI);
 		mSensorManager.registerListener(mSensorListener, mLinear_AccelerationSensor,
-			 SensorManager.SENSOR_DELAY_NORMAL);
+			 SensorManager.SENSOR_DELAY_UI);
 		mSensorManager.registerListener(mSensorListener, mRotation_vectorSensor,
-			 SensorManager.SENSOR_DELAY_NORMAL);
+			 SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
